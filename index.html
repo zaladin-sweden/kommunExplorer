@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sveriges Kommuner - Interactive Map</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Sveriges 290 Kommuner</h1>
+            <p class="subtitle">Klicka på kommunerna för att markera dem som besökta</p>
+        </header>
+
+        <div class="controls">
+            <div class="user-section">
+                <label for="userSelect">Användare:</label>
+                <select id="userSelect">
+                    <option value="">Välj användare...</option>
+                </select>
+                <button id="addUserBtn" class="btn">+ Ny användare</button>
+                <button id="deleteUserBtn" class="btn btn-danger">Ta bort användare</button>
+            </div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-label">Besökta:</span>
+                    <span id="visitedCount" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Kvar:</span>
+                    <span id="remainingCount" class="stat-value">290</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Procent:</span>
+                    <span id="percentageCount" class="stat-value">0%</span>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="resetBtn" class="btn btn-secondary">Återställ alla</button>
+                <button id="exportBtn" class="btn btn-secondary">Exportera data</button>
+                <button id="importBtn" class="btn btn-secondary">Importera data</button>
+                <input type="file" id="importFile" accept=".json" style="display: none;">
+            </div>
+        </div>
+
+        <div class="map-container">
+            <svg id="map" viewBox="0 0 1000 1400" preserveAspectRatio="xMidYMid meet">
+                <!-- Map will be rendered here -->
+            </svg>
+            <div id="tooltip" class="tooltip"></div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color unvisited"></div>
+                <span>Ej besökt</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color visited"></div>
+                <span>Besökt</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="geojson-data.js"></script>
+    <script src="database.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
