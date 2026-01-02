@@ -279,8 +279,7 @@ function renderMap() {
 
         // Add event listeners
         path.addEventListener('click', () => handleMunicipalityClick(municipalityName));
-        path.addEventListener('mouseenter', (e) => showTooltip(e, municipalityName));
-        path.addEventListener('mousemove', (e) => moveTooltip(e));
+        path.addEventListener('mouseenter', (e) => showTooltip(e, feature));
         path.addEventListener('mouseleave', hideTooltip);
 
         svg.appendChild(path);
@@ -327,18 +326,31 @@ function handleMunicipalityClick(municipalityName) {
 }
 
 // Tooltip functions
-function showTooltip(event, municipalityName) {
+function showTooltip(event, feature) {
+    const municipalityName = feature.properties.kom_namn;
     const tooltip = document.getElementById('tooltip');
     const visited = db.isVisited(municipalityName);
     tooltip.textContent = `${municipalityName}${visited ? ' ✓' : ''}`;
-    tooltip.classList.add('visible');
-    moveTooltip(event);
-}
 
-function moveTooltip(event) {
-    const tooltip = document.getElementById('tooltip');
-    tooltip.style.left = (event.pageX + 10) + 'px';
-    tooltip.style.top = (event.pageY + 10) + 'px';
+    // Position tooltip relative to the geographic point
+    const geoPoint = feature.properties.geo_point_2d;
+    if (geoPoint) {
+        const [lat, lon] = geoPoint; // Note: geo_point_2d is usually [lat, lon]
+        const [x, y] = project([lon, lat]);
+
+        const svg = document.getElementById('map');
+        const pt = svg.createSVGPoint();
+        pt.x = x;
+        pt.y = y;
+
+        // Convert SVG coordinates to screen coordinates
+        const screenPos = pt.matrixTransform(svg.getScreenCTM());
+
+        tooltip.style.left = screenPos.x + 'px';
+        tooltip.style.top = screenPos.y + 'px';
+    }
+
+    tooltip.classList.add('visible');
 }
 
 function hideTooltip() {

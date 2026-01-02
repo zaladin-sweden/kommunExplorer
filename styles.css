@@ -179,7 +179,7 @@ h1 {
 }
 
 .tooltip {
-    position: absolute;
+    position: fixed;
     background: rgba(0, 0, 0, 0.9);
     color: white;
     padding: 8px 12px;
@@ -190,6 +190,9 @@ h1 {
     transition: opacity 0.3s;
     z-index: 1000;
     white-space: nowrap;
+    transform: translate(-50%, -100%);
+    margin-top: -10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .tooltip.visible {
